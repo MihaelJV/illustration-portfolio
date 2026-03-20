@@ -18,7 +18,7 @@ header {
     flex: 1;
     display: flex;
     justify-content: flex-start;
-    padding-left: 12%; /* 👈 pushes logo inward (~1/4 feel visually) */
+    padding-left: 20%; /* 👈 pushes logo inward (~1/4 feel visually) */
 }
 
 .sub-header img {
@@ -35,7 +35,7 @@ nav {
     justify-content: flex-end;
     align-items: center;
     gap: 30px;
-    padding-right: 12%; /* 👈 symmetric spacing */
+    padding-right: 20%; /* 👈 symmetric spacing */
 }
 
 /* NAV LINKS */
