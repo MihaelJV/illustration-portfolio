@@ -23,7 +23,7 @@ nav a {
 }
 
 .sub-header img {
-    width: 420px;   /* business card size */
+    width: 600px;   /* business card size */
     max-width: 80%;
     height: auto;
     cursor: pointer;
