@@ -16,7 +16,18 @@ nav a {
     color: black;
     font-weight: 500;
 }
+/* SUB HEADER (LOGO) */
+.sub-header {
+    text-align: center;
+    margin-top: 10px;
+}
 
+.sub-header img {
+    width: 220px;   /* business card size */
+    max-width: 80%;
+    height: auto;
+    cursor: pointer;
+}
 /* GALLERY */
 .gallery {
     column-count: 3;
