@@ -8,29 +8,43 @@ body {
 /* HEADER LAYOUT */
 header {
     display: flex;
-    justify-content: space-between; /* pushes left/right */
-    align-items: center;            /* vertical alignment */
-    padding: 20px 40px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
 }
 
-/* NAV (RIGHT SIDE) */
-nav {
+/* LEFT SIDE (LOGO) */
+.sub-header {
+    flex: 1;
     display: flex;
-    gap: 20px;
+    justify-content: flex-start;
+    padding-left: 12%; /* 👈 pushes logo inward (~1/4 feel visually) */
 }
 
-nav a {
-    text-decoration: none;
-    color: black;
-    font-weight: 500;
-}
-
-/* LOGO (LEFT SIDE) */
 .sub-header img {
-    width: 500px;   /* adjust size here */
+    width: 320px;
     max-width: 100%;
     height: auto;
     cursor: pointer;
+}
+
+/* RIGHT SIDE (NAV) */
+nav {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 30px;
+    padding-right: 12%; /* 👈 symmetric spacing */
+}
+
+/* NAV LINKS */
+nav a {
+    font-size: 1.4rem;           /* bigger text */
+    text-decoration: none;
+    color: #222;
+    font-weight: 600;
+    letter-spacing: 1px;
 }
 
 /* GALLERY */
@@ -70,4 +84,14 @@ nav a {
 #lightbox img {
     max-width: 90%;
     max-height: 90%;
+}
+
+/* PLAYFUL FONT STYLE */
+body {
+    font-family: "Trebuchet MS", "Comic Sans MS", cursive, sans-serif;
+}
+
+/* Optional hover for personality */
+nav a:hover {
+    opacity: 0.6;
 }
