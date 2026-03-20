@@ -1,0 +1,38 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: white;
+}
+
+/* NAVBAR */
+header {
+    padding: 20px;
+    text-align: center;
+}
+
+nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+}
+
+/* GALLERY */
+.gallery {
+    column-count: 3;
+    column-gap: 10px;
+    padding: 20px;
+}
+
+.gallery img {
+    width: 100%;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* CONTENT PAGES */
+.content {
+    max-width: 800px;
+    margin: 60px auto;
+    text-align: center;
+}
