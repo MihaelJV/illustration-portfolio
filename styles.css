@@ -5,29 +5,34 @@ body {
 }
 
 /* NAVBAR */
+/* HEADER LAYOUT */
 header {
-    padding: 20px;
-    text-align: right;
+    display: flex;
+    justify-content: space-between; /* pushes left/right */
+    align-items: center;            /* vertical alignment */
+    padding: 20px 40px;
+}
+
+/* NAV (RIGHT SIDE) */
+nav {
+    display: flex;
+    gap: 20px;
 }
 
 nav a {
-    margin: 0 15px;
     text-decoration: none;
     color: black;
     font-weight: 500;
 }
-/* SUB HEADER (LOGO) */
-.sub-header {
-    text-align: left;
-    margin-top: 10px;
-}
 
+/* LOGO (LEFT SIDE) */
 .sub-header img {
-    width: 600px;   /* business card size */
-    max-width: 80%;
+    width: 500px;   /* adjust size here */
+    max-width: 100%;
     height: auto;
     cursor: pointer;
 }
+
 /* GALLERY */
 .gallery {
     column-count: 3;
