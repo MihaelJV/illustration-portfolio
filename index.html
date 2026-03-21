@@ -52,7 +52,8 @@
             let loaded = 0;
 
             while (loaded < batchSize && currentIndex <= maxImages) {
-                const img = new Image();
+                const img = document.createElement("img");
+                img.loading = "lazy";
                 img.src = `images/${currentIndex}.jpg`;
 
                 img.onload = () => {
