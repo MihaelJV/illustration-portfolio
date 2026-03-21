@@ -38,16 +38,17 @@
         }
     </script>
     <script>
-        const imageCount = 12; // 👈 change this when you add images
+        const maxImages = 200;
 
-        const gallery = document.getElementById("gallery");
+            for (let i = 1; i <= maxImages; i++) {
+                const img = new Image();
+                img.src = `images/${i}.jpg`;
 
-        for (let i = 1; i <= imageCount; i++) {
-            const img = document.createElement("img");
-            img.src = `images/${i}.jpg`;
+                img.onload = () => {
             img.onclick = () => openLightbox(img.src);
             gallery.appendChild(img);
-        }
+                };
+            }
     </script>
 </body>
 </html>
