@@ -22,64 +22,93 @@
     </nav>
 </header>
 
-<main class="gallery" id="gallery">
-</main>
-    <div id="lightbox" onclick="closeLightbox()">
-        <img id="lightbox-img">
-    </div>
-    <script>
-        function openLightbox(src) {
-            document.getElementById("lightbox").style.display = "flex";
-            document.getElementById("lightbox-img").src = src;
-        }
+<main class="gallery" id="gallery"></main>
 
-        function closeLightbox() {
-            document.getElementById("lightbox").style.display = "none";
-        }
-    </script>
-    <script>
-        const gallery = document.getElementById("gallery");
+<!-- Lightbox -->
+<div id="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img">
+</div>
 
-        const batchSize = 15;
-        const maxImages = 200; // safety limit
-        let currentIndex = 1;
-        let loading = false;
+<!-- Sentinel for infinite scroll -->
+<div id="sentinel"></div>
 
-        function loadBatch() {
-            if (loading) return;
-            loading = true;
+<script>
+// LIGHTBOX
+function openLightbox(src) {
+    const lightbox = document.getElementById("lightbox");
+    const img = document.getElementById("lightbox-img");
+    img.src = src;
+    lightbox.style.display = "flex";
+}
 
-            let loaded = 0;
-
-            while (loaded < batchSize && currentIndex <= maxImages) {
-                const img = document.createElement("img");
-                img.loading = "lazy";
-                img.src = `images/${currentIndex}.jpg`;
-
-                img.onload = () => {
-                    img.onclick = () => openLightbox(img.src);
-                    gallery.appendChild(img);
-                };
-
-// skip missing images 
-                img.onerror = () => {};
-
-                currentIndex++;
-                loaded++;
-            }
-
-            loading = false;
-        }
-
-// Load first batch
-        loadBatch();
-
-// Load more on scroll
-        window.addEventListener("scroll", () => {
-            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
-                loadBatch();
-            }
-        });
+function closeLightbox() {
+    document.getElementById("lightbox").style.display = "none";
+}
 </script>
+
+<script>
+// GALLERY LOADING
+const gallery = document.getElementById("gallery");
+const sentinel = document.getElementById("sentinel");
+
+const batchSize = 15;
+const maxImages = 200;
+
+let currentIndex = 1;
+let isLoading = false;
+
+// LOAD IMAGES IN ORDER (SYNCED APPEND)
+function loadBatch() {
+    if (isLoading) return;
+    isLoading = true;
+
+    const fragment = document.createDocumentFragment();
+    let loadedCount = 0;
+
+    function loadNext() {
+        if (loadedCount >= batchSize || currentIndex > maxImages) {
+            gallery.appendChild(fragment);
+            isLoading = false;
+            return;
+        }
+
+        const img = document.createElement("img");
+        img.loading = "lazy";
+        img.src = `images/${currentIndex}.jpg`;
+
+        const thisIndex = currentIndex;
+        currentIndex++;
+
+        img.onload = () => {
+            img.onclick = () => openLightbox(img.src);
+            img.classList.add("loaded");
+            fragment.appendChild(img);
+            loadedCount++;
+            loadNext(); // load next ONLY after this one finishes → keeps order
+        };
+
+        img.onerror = () => {
+            loadNext(); // skip missing but keep sequence
+        };
+    }
+
+    loadNext();
+}
+
+// INITIAL LOAD
+loadBatch();
+
+// INTERSECTION OBSERVER (better than scroll)
+const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+        loadBatch();
+    }
+}, {
+    rootMargin: "200px"
+});
+
+observer.observe(sentinel);
+</script>
+
 </body>
 </html>
