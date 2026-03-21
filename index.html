@@ -38,17 +38,47 @@
         }
     </script>
     <script>
-        const maxImages = 200;
+        const gallery = document.getElementById("gallery");
 
-            for (let i = 1; i <= maxImages; i++) {
+        const batchSize = 15;
+        const maxImages = 200; // safety limit
+        let currentIndex = 1;
+        let loading = false;
+
+        function loadBatch() {
+            if (loading) return;
+            loading = true;
+
+            let loaded = 0;
+
+            while (loaded < batchSize && currentIndex <= maxImages) {
                 const img = new Image();
-                img.src = `images/${i}.jpg`;
+                img.src = `images/${currentIndex}.jpg`;
 
                 img.onload = () => {
-            img.onclick = () => openLightbox(img.src);
-            gallery.appendChild(img);
+                    img.onclick = () => openLightbox(img.src);
+                    gallery.appendChild(img);
                 };
+
+// skip missing images 
+                img.onerror = () => {};
+
+                currentIndex++;
+                loaded++;
             }
-    </script>
+
+            loading = false;
+        }
+
+// Load first batch
+        loadBatch();
+
+// Load more on scroll
+        window.addEventListener("scroll", () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+                loadBatch();
+            }
+        });
+</script>
 </body>
 </html>
