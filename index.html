@@ -44,10 +44,8 @@ function openLightbox(src) {
 function closeLightbox() {
     document.getElementById("lightbox").style.display = "none";
 }
-</script>
 
-<script>
-// GALLERY LOADING
+// GALLERY
 const gallery = document.getElementById("gallery");
 const sentinel = document.getElementById("sentinel");
 
@@ -57,48 +55,42 @@ const maxImages = 200;
 let currentIndex = 1;
 let isLoading = false;
 
-// LOAD IMAGES IN ORDER (SYNCED APPEND)
 function loadBatch() {
     if (isLoading) return;
     isLoading = true;
 
     const fragment = document.createDocumentFragment();
-    let loadedCount = 0;
+    let attempts = 0;
 
-    function loadNext() {
-        if (loadedCount >= batchSize || currentIndex > maxImages) {
-            gallery.appendChild(fragment);
-            isLoading = false;
-            return;
-        }
-
+    while (attempts < batchSize && currentIndex <= maxImages) {
         const img = document.createElement("img");
         img.loading = "lazy";
-        img.src = `images/${currentIndex}.jpg`;
 
-        const thisIndex = currentIndex;
+        const src = `images/${currentIndex}.jpg`;
+        img.src = src;
+
+        // preserve order by appending immediately
+        img.onclick = () => openLightbox(src);
+
+        img.onload = () => img.classList.add("loaded");
+
+        // if missing, just hide it
+        img.onerror = () => img.remove();
+
+        fragment.appendChild(img);
+
         currentIndex++;
-
-        img.onload = () => {
-            img.onclick = () => openLightbox(img.src);
-            img.classList.add("loaded");
-            fragment.appendChild(img);
-            loadedCount++;
-            loadNext(); // load next ONLY after this one finishes → keeps order
-        };
-
-        img.onerror = () => {
-            loadNext(); // skip missing but keep sequence
-        };
+        attempts++;
     }
 
-    loadNext();
+    gallery.appendChild(fragment);
+    isLoading = false;
 }
 
-// INITIAL LOAD
+// initial load
 loadBatch();
 
-// INTERSECTION OBSERVER (better than scroll)
+// intersection observer
 const observer = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
         loadBatch();
