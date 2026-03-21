@@ -1,11 +1,11 @@
+/* BASE */
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
     background: white;
+    font-family: "Trebuchet MS", "Comic Sans MS", cursive, sans-serif;
 }
 
-/* NAVBAR */
-/* HEADER LAYOUT */
+/* HEADER */
 header {
     display: flex;
     justify-content: space-between;
@@ -13,12 +13,12 @@ header {
     padding: 20px 0;
 }
 
-/* LEFT SIDE (LOGO) */
+/* LOGO */
 .sub-header {
     flex: 1;
     display: flex;
     justify-content: flex-start;
-    padding-left: 20%; /* 👈 pushes logo inward (~1/4 feel visually) */
+    padding-left: 20%;
 }
 
 .sub-header img {
@@ -28,29 +28,31 @@ header {
     cursor: pointer;
 }
 
-/* RIGHT SIDE (NAV) */
+/* NAV */
 nav {
     flex: 1;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     gap: 30px;
-    padding-right: 20%; /* 👈 symmetric spacing */
+    padding-right: 20%;
 }
 
-/* NAV LINKS */
 nav a {
-    font-size: 1.4rem;           /* bigger text */
+    font-size: 1.4rem;
     text-decoration: none;
     color: #222;
     font-weight: 600;
     letter-spacing: 1px;
 }
 
-/* Optimized GALLERY */
+nav a:hover {
+    opacity: 0.6;
+}
+
+/* GALLERY */
 .gallery {
-    /* Set ideal column width; browser will auto-calculate count based on space */
-    column-width: 300px; 
+    column-width: 300px;
     column-gap: 15px;
     padding: 20px;
 }
@@ -59,11 +61,9 @@ nav a {
     width: 100%;
     display: block;
     margin-bottom: 15px;
-    /* CRITICAL: Prevents images from splitting across columns */
-    break-inside: avoid; 
-    border-radius: 8px; /* Optional: adds a modern feel */
-    
-    /* Animation: Performance-friendly (only animates opacity) */
+    break-inside: avoid;
+    border-radius: 8px;
+
     opacity: 0;
     transition: opacity 0.4s ease-out;
 }
@@ -71,20 +71,19 @@ nav a {
 .gallery img.loaded {
     opacity: 1;
 }
-/* CONTENT PAGES */
+
+/* CONTENT */
 .content {
     max-width: 800px;
     margin: 60px auto;
     text-align: center;
 }
+
 /* LIGHTBOX */
 #lightbox {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: rgba(0, 0, 0, 0.9);
     justify-content: center;
     align-items: center;
@@ -97,12 +96,7 @@ nav a {
     max-height: 90%;
 }
 
-/* PLAYFUL FONT STYLE */
-body {
-    font-family: "Trebuchet MS", "Comic Sans MS", cursive, sans-serif;
-}
-
-/* Optional hover for personality */
-nav a:hover {
-    opacity: 0.6;
+/* SENTINEL (invisible trigger) */
+#sentinel {
+    height: 1px;
 }
