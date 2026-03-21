@@ -47,19 +47,30 @@ nav a {
     letter-spacing: 1px;
 }
 
-/* GALLERY */
+/* Optimized GALLERY */
 .gallery {
-    column-count: 3;
-    column-gap: 10px;
+    /* Set ideal column width; browser will auto-calculate count based on space */
+    column-width: 300px; 
+    column-gap: 15px;
     padding: 20px;
 }
 
 .gallery img {
     width: 100%;
-    margin-bottom: 10px;
     display: block;
+    margin-bottom: 15px;
+    /* CRITICAL: Prevents images from splitting across columns */
+    break-inside: avoid; 
+    border-radius: 8px; /* Optional: adds a modern feel */
+    
+    /* Animation: Performance-friendly (only animates opacity) */
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
 }
 
+.gallery img.loaded {
+    opacity: 1;
+}
 /* CONTENT PAGES */
 .content {
     max-width: 800px;
