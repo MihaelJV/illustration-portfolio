@@ -79,6 +79,20 @@ nav a:hover {
     text-align: center;
 }
 
+/* TABLET */
+@media (max-width: 900px) {
+    .gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* MOBILE */
+@media (max-width: 500px) {
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* LIGHTBOX */
 #lightbox {
     display: none;
