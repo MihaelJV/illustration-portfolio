@@ -50,18 +50,18 @@ nav a:hover {
     opacity: 0.6;
 }
 
-/* GALLERY */
+/* GALLERY - GRID (ORDER LOCKED) */
 .gallery {
-    column-width: 300px;
-    column-gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    gap: 15px;
     padding: 20px;
 }
 
 .gallery img {
     width: 100%;
+    height: auto;
     display: block;
-    margin-bottom: 15px;
-    break-inside: avoid;
     border-radius: 8px;
 
     opacity: 0;
