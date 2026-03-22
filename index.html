@@ -55,42 +55,77 @@ const maxImages = 200;
 let currentIndex = 1;
 let isLoading = false;
 
+// loading indicator
+const loader = document.createElement("div");
+loader.innerText = "Loading...";
+loader.style.textAlign = "center";
+loader.style.padding = "20px";
+loader.style.fontSize = "1.2rem";
+
 function loadBatch() {
     if (isLoading) return;
     isLoading = true;
 
-    const fragment = document.createDocumentFragment();
-    let attempts = 0;
+    gallery.appendChild(loader);
 
-    while (attempts < batchSize && currentIndex <= maxImages) {
-        const img = document.createElement("img");
-        img.loading = "lazy";
+    const images = [];
+    let loadedCount = 0;
+    let targetCount = 0;
 
+    for (let i = 0; i < batchSize && currentIndex <= maxImages; i++) {
         const src = `images/${currentIndex}.jpg`;
+        const img = new Image();
+
+        targetCount++;
+
         img.src = src;
 
-        // preserve order by appending immediately
-        img.onclick = () => openLightbox(src);
+        img.onload = () => {
+            loadedCount++;
+            images.push({ index: currentIndex, element: img });
 
-        img.onload = () => img.classList.add("loaded");
+            if (loadedCount === targetCount) {
+                renderBatch(images);
+            }
+        };
 
-        // if missing, just hide it
-        img.onerror = () => img.remove();
-
-        fragment.appendChild(img);
+        img.onerror = () => {
+            targetCount--;
+            if (loadedCount === targetCount) {
+                renderBatch(images);
+            }
+        };
 
         currentIndex++;
-        attempts++;
     }
 
-    gallery.appendChild(fragment);
-    isLoading = false;
+    function renderBatch(images) {
+        loader.remove();
+
+        // SORT to guarantee order
+        images.sort((a, b) => a.index - b.index);
+
+        const fragment = document.createDocumentFragment();
+
+        images.forEach(obj => {
+            const img = obj.element;
+
+            img.loading = "lazy";
+            img.onclick = () => openLightbox(img.src);
+            img.classList.add("loaded");
+
+            fragment.appendChild(img);
+        });
+
+        gallery.appendChild(fragment);
+        isLoading = false;
+    }
 }
 
 // initial load
 loadBatch();
 
-// intersection observer
+// observer
 const observer = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
         loadBatch();
