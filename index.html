@@ -28,26 +28,59 @@
 
 <!-- Lightbox -->
 <div id="lightbox" onclick="closeLightbox()">
+    <span class="arrow left" onclick="event.stopPropagation(); showPrev()">❮</span>
     <img id="lightbox-img" alt="Expanded artwork">
+    <span class="arrow right" onclick="event.stopPropagation(); showNext()">❯</span>
 </div>
-
+    
 <!-- Sentinel -->
 <div id="sentinel"></div>
 
 <script>
 // LIGHTBOX
+let currentLightboxIndex = 0;
 function openLightbox(src) {
     const lightbox = document.getElementById("lightbox");
     const img = document.getElementById("lightbox-img");
 
     img.src = src;
     lightbox.style.display = "flex";
+
+    // extract index from filename
+    const match = src.match(/(\d+)\.jpg$/);
+    if (match) {
+        currentLightboxIndex = parseInt(match[1]);
+    }
 }
 
 // Prevent closing when clicking image
 document.getElementById("lightbox-img").onclick = (e) => {
     e.stopPropagation();
 };
+
+function showNext() {
+    if (currentLightboxIndex < maxImages) {
+        currentLightboxIndex++;
+        document.getElementById("lightbox-img").src = `images/${currentLightboxIndex}.jpg`;
+    }
+}
+
+function showPrev() {
+    if (currentLightboxIndex > 1) {
+        currentLightboxIndex--;
+        document.getElementById("lightbox-img").src = `images/${currentLightboxIndex}.jpg`;
+    }
+}
+    
+document.addEventListener("keydown", (e) => {
+    const lightbox = document.getElementById("lightbox");
+
+    if (lightbox.style.display === "flex") {
+        if (e.key === "ArrowRight") showNext();
+        if (e.key === "ArrowLeft") showPrev();
+        if (e.key === "Escape") closeLightbox();
+    }
+});
 
 function closeLightbox() {
     document.getElementById("lightbox").style.display = "none";
