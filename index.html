@@ -79,9 +79,11 @@ function loadBatch() {
 
         img.onclick = () => openLightbox(src);
 
+        gallery.appendChild(img); // append immediately
+
         img.onload = () => {
             img.classList.add("loaded");
-            gallery.appendChild(img);
+        };
 
             loadedInBatch++;
             if (loadedInBatch === batchSize) {
