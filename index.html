@@ -26,10 +26,10 @@
 
 <!-- Lightbox -->
 <div id="lightbox" onclick="closeLightbox()">
-    <img id="lightbox-img">
+    <img id="lightbox-img" alt="Expanded artwork">
 </div>
 
-<!-- Sentinel for infinite scroll -->
+<!-- Sentinel -->
 <div id="sentinel"></div>
 
 <script>
@@ -37,9 +37,15 @@
 function openLightbox(src) {
     const lightbox = document.getElementById("lightbox");
     const img = document.getElementById("lightbox-img");
+
     img.src = src;
     lightbox.style.display = "flex";
 }
+
+// Prevent closing when clicking image
+document.getElementById("lightbox-img").onclick = (e) => {
+    e.stopPropagation();
+};
 
 function closeLightbox() {
     document.getElementById("lightbox").style.display = "none";
@@ -49,89 +55,60 @@ function closeLightbox() {
 const gallery = document.getElementById("gallery");
 const sentinel = document.getElementById("sentinel");
 
-const batchSize = 15;
+const batchSize = 6;   // 🔥 smaller = faster on mobile
 const maxImages = 200;
 
 let currentIndex = 1;
 let isLoading = false;
 
-// loading indicator
-const loader = document.createElement("div");
-loader.innerText = "Loading...";
-loader.style.textAlign = "center";
-loader.style.padding = "20px";
-loader.style.fontSize = "1.2rem";
-
 function loadBatch() {
     if (isLoading) return;
     isLoading = true;
 
-    gallery.appendChild(loader);
-
-    const images = [];
-    let loadedCount = 0;
-    let targetCount = 0;
+    let loadedInBatch = 0;
 
     for (let i = 0; i < batchSize && currentIndex <= maxImages; i++) {
-        const src = `images/${currentIndex}.jpg`;
-        const img = new Image();
+        const index = currentIndex;
+        const src = `images/${index}.jpg`;
 
-        targetCount++;
-
+        const img = document.createElement("img");
         img.src = src;
+        img.alt = `Illustration ${index}`;
+
+        img.onclick = () => openLightbox(src);
 
         img.onload = () => {
-            loadedCount++;
-            images.push({ index: currentIndex, element: img });
+            img.classList.add("loaded");
+            gallery.appendChild(img);
 
-            if (loadedCount === targetCount) {
-                renderBatch(images);
+            loadedInBatch++;
+            if (loadedInBatch === batchSize) {
+                isLoading = false;
             }
         };
 
         img.onerror = () => {
-            targetCount--;
-            if (loadedCount === targetCount) {
-                renderBatch(images);
+            img.remove();
+            loadedInBatch++;
+            if (loadedInBatch === batchSize) {
+                isLoading = false;
             }
         };
 
         currentIndex++;
-    }
-
-    function renderBatch(images) {
-        loader.remove();
-
-        // SORT to guarantee order
-        images.sort((a, b) => a.index - b.index);
-
-        const fragment = document.createDocumentFragment();
-
-        images.forEach(obj => {
-            const img = obj.element;
-
-            img.loading = "lazy";
-            img.onclick = () => openLightbox(img.src);
-            img.classList.add("loaded");
-
-            fragment.appendChild(img);
-        });
-
-        gallery.appendChild(fragment);
-        isLoading = false;
     }
 }
 
 // initial load
 loadBatch();
 
-// observer
+// INTERSECTION OBSERVER (smooth infinite scroll)
 const observer = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting) {
         loadBatch();
     }
 }, {
-    rootMargin: "200px"
+    rootMargin: "300px"
 });
 
 observer.observe(sentinel);
