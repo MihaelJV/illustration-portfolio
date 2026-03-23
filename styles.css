@@ -67,16 +67,14 @@ nav a:hover {
     margin-bottom: 10px;
     display: block;
     border-radius: 8px;
-
     opacity: 0;
     transition: opacity 0.4s ease-out;
-}
-
-.gallery img {
     break-inside: avoid;
     -webkit-column-break-inside: avoid;
     page-break-inside: avoid;
+    min-height: 50px; /* prevents collapse during load */
 }
+
 .gallery img.loaded {
     opacity: 1;
 }
