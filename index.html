@@ -130,6 +130,7 @@ function loadBatch() {
             img.alt = `Illustration ${obj.index}`;
             img.loading = "lazy";
             img.onclick = () => openLightbox(img.src);
+            img.style.aspectRatio = img.naturalWidth + " / " + img.naturalHeight;
             img.classList.add("loaded");
 
             fragment.appendChild(img);
