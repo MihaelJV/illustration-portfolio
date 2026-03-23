@@ -32,8 +32,7 @@
     <img id="lightbox-img" alt="Expanded artwork">
     <span class="arrow right" onclick="event.stopPropagation(); showNext()">❯</span>
 </div>
-    
-<!-- Sentinel -->
+
 <div id="sentinel"></div>
 
 <script>
@@ -84,7 +83,7 @@ function closeLightbox() {
 const gallery = document.getElementById("gallery");
 const sentinel = document.getElementById("sentinel");
 
-const batchSize = 4;   // 🔥 smaller = MUCH more stable
+const batchSize = 6;
 const maxImages = 200;
 
 let currentIndex = 1;
@@ -94,54 +93,63 @@ function loadBatch() {
     if (isLoading || currentIndex > maxImages) return;
     isLoading = true;
 
-    let loaded = 0;
+    const batch = [];
+    let loadedCount = 0;
 
-    function loadOne() {
-        if (loaded >= batchSize || currentIndex > maxImages) {
-            isLoading = false;
-            return;
-        }
-
+    for (let i = 0; i < batchSize && currentIndex <= maxImages; i++) {
         const index = currentIndex;
         const src = `images/${index}.jpg`;
 
-        const img = document.createElement("img");
+        const img = new Image();
         img.src = src;
-        img.alt = `Illustration ${index}`;
-        img.loading = "lazy"; // 🔥 critical fix
-
-        img.onclick = () => openLightbox(src);
-
-        gallery.appendChild(img);
 
         img.onload = () => {
-            img.classList.add("loaded");
-            loaded++;
-            loadOne(); // load next ONLY after this finishes
+            batch.push({ index, img });
+            loadedCount++;
+
+            if (loadedCount === batchSize) renderBatch();
         };
 
         img.onerror = () => {
-            img.remove();
-            loaded++;
-            loadOne();
+            loadedCount++;
+            if (loadedCount === batchSize) renderBatch();
         };
 
         currentIndex++;
     }
 
-    loadOne(); // start chain
+    function renderBatch() {
+        // SORT → guarantees order
+        batch.sort((a, b) => a.index - b.index);
+
+        const fragment = document.createDocumentFragment();
+
+        batch.forEach(obj => {
+            const img = obj.img;
+
+            img.alt = `Illustration ${obj.index}`;
+            img.loading = "lazy";
+            img.onclick = () => openLightbox(img.src);
+            img.classList.add("loaded");
+
+            fragment.appendChild(img);
+        });
+
+        gallery.appendChild(fragment);
+        isLoading = false;
+    }
 }
 
 // INITIAL LOAD
 loadBatch();
 
-// INTERSECTION OBSERVER (debounced naturally)
+// SCROLL LOAD
 const observer = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting && !isLoading) {
         loadBatch();
     }
 }, {
-    rootMargin: "400px" // preload earlier
+    rootMargin: "300px"
 });
 
 observer.observe(sentinel);
