@@ -50,6 +50,11 @@ nav a:hover {
     opacity: 0.6;
 }
 
+.nav-sep {
+    color: #f4b400; /* honey color */
+    font-size: 1.2rem;
+}
+
 /* GALLERY (MASONRY) */
 .gallery {
     column-count: 3;
@@ -67,6 +72,11 @@ nav a:hover {
     transition: opacity 0.4s ease-out;
 }
 
+.gallery img {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+}
 .gallery img.loaded {
     opacity: 1;
 }
