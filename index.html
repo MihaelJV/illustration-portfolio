@@ -90,17 +90,17 @@ function closeLightbox() {
 const gallery = document.getElementById("gallery");
 const sentinel = document.getElementById("sentinel");
 
-const batchSize = 6;   // 🔥 smaller = faster on mobile
+const batchSize = 6;
 const maxImages = 200;
 
 let currentIndex = 1;
 let isLoading = false;
 
 function loadBatch() {
-    if (isLoading) return;
+    if (isLoading || currentIndex > maxImages) return;
     isLoading = true;
 
-    let loadedInBatch = 0;
+    let remainingInBatch = batchSize;
 
     for (let i = 0; i < batchSize && currentIndex <= maxImages; i++) {
         const index = currentIndex;
@@ -109,25 +109,23 @@ function loadBatch() {
         const img = document.createElement("img");
         img.src = src;
         img.alt = `Illustration ${index}`;
-
         img.onclick = () => openLightbox(src);
 
-        gallery.appendChild(img); // append immediately
+        // Append immediately for masonry layout
+        gallery.appendChild(img);
 
         img.onload = () => {
             img.classList.add("loaded");
-        };
-
-            loadedInBatch++;
-            if (loadedInBatch === batchSize) {
+            remainingInBatch--;
+            if (remainingInBatch === 0) {
                 isLoading = false;
             }
         };
 
         img.onerror = () => {
-            img.remove();
-            loadedInBatch++;
-            if (loadedInBatch === batchSize) {
+            img.remove();  // Remove broken images
+            remainingInBatch--;
+            if (remainingInBatch === 0) {
                 isLoading = false;
             }
         };
@@ -136,12 +134,12 @@ function loadBatch() {
     }
 }
 
-// initial load
+// Initial load
 loadBatch();
 
-// INTERSECTION OBSERVER (smooth infinite scroll)
+// INTERSECTION OBSERVER
 const observer = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
+    if (entries[0].isIntersecting && !isLoading) {
         loadBatch();
     }
 }, {
