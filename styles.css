@@ -34,7 +34,7 @@ nav {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 30px;
+    gap: 20px;
     padding-right: 20%;
 }
 
@@ -51,11 +51,11 @@ nav a:hover {
 }
 
 .nav-sep {
-    color: #f4b400; /* honey color */
+    color: #f4b400;
     font-size: 1.2rem;
 }
 
-/* GALLERY (MASONRY) */
+/* MASONRY */
 .gallery {
     column-count: 3;
     column-gap: 10px;
@@ -64,6 +64,69 @@ nav a:hover {
 
 .gallery img {
     width: 100%;
+    margin-bottom: 10px;
+    display: block;
+    border-radius: 8px;
+
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.gallery img.loaded {
+    opacity: 1;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1000px) {
+    .gallery {
+        column-count: 2;
+    }
+}
+
+@media (max-width: 600px) {
+    .gallery {
+        column-count: 1;
+    }
+}
+
+/* LIGHTBOX */
+#lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.arrow.left { left: 20px; }
+.arrow.right { right: 20px; }
+
+.arrow:hover { opacity: 0.7; }
+
+/* SENTINEL */
+#sentinel {
+    height: 1px;
+}    width: 100%;
     margin-bottom: 10px;
     display: block;
     border-radius: 8px;
