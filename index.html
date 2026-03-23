@@ -39,6 +39,7 @@
 <script>
 // LIGHTBOX
 let currentLightboxIndex = 0;
+
 function openLightbox(src) {
     const lightbox = document.getElementById("lightbox");
     const img = document.getElementById("lightbox-img");
@@ -46,17 +47,11 @@ function openLightbox(src) {
     img.src = src;
     lightbox.style.display = "flex";
 
-    // extract index from filename
     const match = src.match(/(\d+)\.jpg$/);
-    if (match) {
-        currentLightboxIndex = parseInt(match[1]);
-    }
+    if (match) currentLightboxIndex = parseInt(match[1]);
 }
 
-// Prevent closing when clicking image
-document.getElementById("lightbox-img").onclick = (e) => {
-    e.stopPropagation();
-};
+document.getElementById("lightbox-img").onclick = (e) => e.stopPropagation();
 
 function showNext() {
     if (currentLightboxIndex < maxImages) {
@@ -71,10 +66,9 @@ function showPrev() {
         document.getElementById("lightbox-img").src = `images/${currentLightboxIndex}.jpg`;
     }
 }
-    
+
 document.addEventListener("keydown", (e) => {
     const lightbox = document.getElementById("lightbox");
-
     if (lightbox.style.display === "flex") {
         if (e.key === "ArrowRight") showNext();
         if (e.key === "ArrowLeft") showPrev();
@@ -90,7 +84,7 @@ function closeLightbox() {
 const gallery = document.getElementById("gallery");
 const sentinel = document.getElementById("sentinel");
 
-const batchSize = 6;
+const batchSize = 4;   // 🔥 smaller = MUCH more stable
 const maxImages = 200;
 
 let currentIndex = 1;
@@ -100,50 +94,54 @@ function loadBatch() {
     if (isLoading || currentIndex > maxImages) return;
     isLoading = true;
 
-    let remainingInBatch = batchSize;
+    let loaded = 0;
 
-    for (let i = 0; i < batchSize && currentIndex <= maxImages; i++) {
+    function loadOne() {
+        if (loaded >= batchSize || currentIndex > maxImages) {
+            isLoading = false;
+            return;
+        }
+
         const index = currentIndex;
         const src = `images/${index}.jpg`;
 
         const img = document.createElement("img");
         img.src = src;
         img.alt = `Illustration ${index}`;
+        img.loading = "lazy"; // 🔥 critical fix
+
         img.onclick = () => openLightbox(src);
 
-        // Append immediately for masonry layout
         gallery.appendChild(img);
 
         img.onload = () => {
             img.classList.add("loaded");
-            remainingInBatch--;
-            if (remainingInBatch === 0) {
-                isLoading = false;
-            }
+            loaded++;
+            loadOne(); // load next ONLY after this finishes
         };
 
         img.onerror = () => {
-            img.remove();  // Remove broken images
-            remainingInBatch--;
-            if (remainingInBatch === 0) {
-                isLoading = false;
-            }
+            img.remove();
+            loaded++;
+            loadOne();
         };
 
         currentIndex++;
     }
+
+    loadOne(); // start chain
 }
 
-// Initial load
+// INITIAL LOAD
 loadBatch();
 
-// INTERSECTION OBSERVER
+// INTERSECTION OBSERVER (debounced naturally)
 const observer = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting && !isLoading) {
         loadBatch();
     }
 }, {
-    rootMargin: "300px"
+    rootMargin: "400px" // preload earlier
 });
 
 observer.observe(sentinel);
