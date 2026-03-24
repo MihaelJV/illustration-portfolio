@@ -129,32 +129,65 @@ function loadBatch() {
     }
 
     function renderBatch() {
-        batch.sort((a, b) => a.index - b.index);
+    batch.sort((a, b) => a.index - b.index);
 
-        const fragment = document.createDocumentFragment();
+    batch.forEach(obj => {
+        const img = obj.img;
 
-        batch.forEach(obj => {
-            const img = obj.img;
+        img.alt = `Illustration ${obj.index}`;
+        img.loading = "lazy";
+        img.onclick = () => openLightbox(img.src);
 
-            img.alt = `Illustration ${obj.index}`;
-            img.loading = "lazy";
-            img.onclick = () => openLightbox(img.src);
+        img.style.width = columnWidth + "px";
 
-            img.style.aspectRatio =
-                img.naturalWidth + " / " + img.naturalHeight;
+        gallery.appendChild(img);
 
+        requestAnimationFrame(() => {
+            placeImage(img);
             img.classList.add("loaded");
-
-            fragment.appendChild(img);
         });
+    });
 
-        gallery.appendChild(fragment);
-        isLoading = false;
-    }
+    isLoading = false;
 }
 
-loadBatch();
+// MASONRY ENGINE
+const columnWidth = 320;
+const gap = 12;
 
+let columns = 0;
+let columnHeights = [];
+
+function setupMasonry() {
+    const galleryWidth = gallery.clientWidth;
+    columns = Math.floor(galleryWidth / (columnWidth + gap));
+    if (columns < 1) columns = 1;
+
+    columnHeights = new Array(columns).fill(0);
+}
+
+function placeImage(img) {
+    // find shortest column
+    let minCol = 0;
+    for (let i = 1; i < columns; i++) {
+        if (columnHeights[i] < columnHeights[minCol]) {
+            minCol = i;
+        }
+    }
+
+    const x = minCol * (columnWidth + gap);
+    const y = columnHeights[minCol];
+
+    img.style.left = x + "px";
+    img.style.top = y + "px";
+
+    columnHeights[minCol] += img.height + gap;
+
+    // update container height
+    gallery.style.height = Math.max(...columnHeights) + "px";
+}
+setupMasonry();
+loadBatch();
 const observer = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting && !isLoading) {
         loadBatch();
@@ -164,6 +197,18 @@ const observer = new IntersectionObserver((entries) => {
 });
 
 observer.observe(sentinel);
+
+    window.addEventListener("resize", () => {
+    setupMasonry();
+
+    const images = gallery.querySelectorAll("img");
+
+    columnHeights.fill(0);
+
+    images.forEach(img => {
+        placeImage(img);
+    });
+});
 </script>
 
 </body>
