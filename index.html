@@ -119,7 +119,6 @@ function loadBatch() {
     }
 
     function renderBatch() {
-        // SORT → guarantees order
         batch.sort((a, b) => a.index - b.index);
 
         const fragment = document.createDocumentFragment();
@@ -130,7 +129,10 @@ function loadBatch() {
             img.alt = `Illustration ${obj.index}`;
             img.loading = "lazy";
             img.onclick = () => openLightbox(img.src);
+
+            // 🔥 critical: reserve correct space BEFORE paint
             img.style.aspectRatio = img.naturalWidth + " / " + img.naturalHeight;
+
             img.classList.add("loaded");
 
             fragment.appendChild(img);
@@ -141,10 +143,8 @@ function loadBatch() {
     }
 }
 
-// INITIAL LOAD
 loadBatch();
 
-// SCROLL LOAD
 const observer = new IntersectionObserver((entries) => {
     if (entries[0].isIntersecting && !isLoading) {
         loadBatch();
