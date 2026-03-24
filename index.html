@@ -46,23 +46,23 @@ function openLightbox(src) {
     img.src = src;
     lightbox.style.display = "flex";
 
-    const match = src.match(/(\d+)\.jpg$/);
+    const match = src.match(/(\d+)\.(jpg|webp)$/);
     if (match) currentLightboxIndex = parseInt(match[1]);
 }
 
 document.getElementById("lightbox-img").onclick = (e) => e.stopPropagation();
 
 function showNext() {
-    if (currentLightboxIndex < maxImages) {
-        currentLightboxIndex++;
-        document.getElementById("lightbox-img").src = `images/${currentLightboxIndex}.jpg`;
-    }
+    currentLightboxIndex++;
+    document.getElementById("lightbox-img").src =
+        `images/${currentLightboxIndex}.webp`;
 }
 
 function showPrev() {
     if (currentLightboxIndex > 1) {
         currentLightboxIndex--;
-        document.getElementById("lightbox-img").src = `images/${currentLightboxIndex}.jpg`;
+        document.getElementById("lightbox-img").src =
+            `images/${currentLightboxIndex}.webp`;
     }
 }
 
@@ -114,7 +114,7 @@ function loadBatch() {
         };
 
         img.onerror = () => {
-            // 🔥 first missing image = stop everything
+            // first missing image = stop everything
             reachedEnd = true;
             checkDone();
         };
@@ -123,8 +123,8 @@ function loadBatch() {
     }
 
     function checkDone() {
-        if (loadedCount + (reachedEnd ? 1 : 0) === attempted) {
-            renderBatch();
+        if (loadedCount === attempted || reachedEnd) {
+        renderBatch();
         }
     }
 
