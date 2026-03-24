@@ -84,38 +84,48 @@ const gallery = document.getElementById("gallery");
 const sentinel = document.getElementById("sentinel");
 
 const batchSize = 6;
-const maxImages = 200;
 
 let currentIndex = 1;
 let isLoading = false;
 
+let reachedEnd = false;
+
 function loadBatch() {
-    if (isLoading || currentIndex > maxImages) return;
+    if (isLoading || reachedEnd) return;
     isLoading = true;
 
     const batch = [];
     let loadedCount = 0;
+    let attempted = 0;
 
-    for (let i = 0; i < batchSize && currentIndex <= maxImages; i++) {
+    for (let i = 0; i < batchSize; i++) {
         const index = currentIndex;
         const src = `images/${index}.jpg`;
 
         const img = new Image();
         img.src = src;
 
+        attempted++;
+
         img.onload = () => {
             batch.push({ index, img });
             loadedCount++;
-
-            if (loadedCount === batchSize) renderBatch();
+            checkDone();
         };
 
         img.onerror = () => {
-            loadedCount++;
-            if (loadedCount === batchSize) renderBatch();
+            // 🔥 first missing image = stop everything
+            reachedEnd = true;
+            checkDone();
         };
 
         currentIndex++;
+    }
+
+    function checkDone() {
+        if (loadedCount + (reachedEnd ? 1 : 0) === attempted) {
+            renderBatch();
+        }
     }
 
     function renderBatch() {
@@ -130,8 +140,8 @@ function loadBatch() {
             img.loading = "lazy";
             img.onclick = () => openLightbox(img.src);
 
-            // 🔥 critical: reserve correct space BEFORE paint
-            img.style.aspectRatio = img.naturalWidth + " / " + img.naturalHeight;
+            img.style.aspectRatio =
+                img.naturalWidth + " / " + img.naturalHeight;
 
             img.classList.add("loaded");
 
