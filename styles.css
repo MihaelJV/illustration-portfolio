@@ -48,9 +48,9 @@ nav a {
     color: #f4b400;
 }
 
-/* 🔥 MASONRY (KEY CHANGE) */
+/* MASONRY */
 .gallery {
-    column-width: 320px;   /* 🔥 controls column size */
+    column-width: 320px;   /* controls column size */
     column-gap: 12px;
     padding: 20px;
     max-width: 1400px;
@@ -74,6 +74,27 @@ nav a {
 
 .gallery img.loaded {
     opacity: 1;
+}
+
+/* MOBILE HEADER */
+@media (max-width: 700px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .sub-header {
+        padding-left: 0;
+        justify-content: center;
+    }
+
+    nav {
+        padding-right: 0;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
 }
 
 /* LIGHTBOX */
