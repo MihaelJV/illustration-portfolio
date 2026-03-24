@@ -62,7 +62,7 @@ nav a {
     width: 100%;
     display: block;
     margin-bottom: 12px;
-    border-radius: 8px;
+    border-radius: 0px;
 
     break-inside: avoid;
 
