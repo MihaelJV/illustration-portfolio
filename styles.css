@@ -18,14 +18,13 @@ header {
     flex: 1;
     display: flex;
     justify-content: flex-start;
-    padding-left: 20%;
+    padding-left: 5%;
 }
 
 .sub-header img {
-    width: 550px;
+    width: 400px;
     max-width: 100%;
     height: auto;
-    cursor: pointer;
 }
 
 /* NAV */
@@ -34,42 +33,40 @@ nav {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 20px;
-    padding-right: 20%;
+    gap: 15px;
+    padding-right: 5%;
 }
 
 nav a {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     text-decoration: none;
     color: #222;
     font-weight: 600;
-    letter-spacing: 1px;
-}
-
-nav a:hover {
-    opacity: 0.6;
 }
 
 .nav-sep {
     color: #f4b400;
-    font-size: 1.2rem;
 }
 
-/* MASONRY */
+/* 🔥 MASONRY (KEY CHANGE) */
 .gallery {
-    column-count: 3;
-    column-gap: 10px;
+    column-width: 320px;   /* 🔥 controls column size */
+    column-gap: 12px;
     padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
+/* IMAGES */
 .gallery img {
     width: 100%;
-    height: auto;
     display: block;
+    margin-bottom: 12px;
+    border-radius: 8px;
 
     break-inside: avoid;
 
-    background: #eee; /* placeholder color */
+    background: #eee;
 
     opacity: 0;
     transition: opacity 0.4s ease;
@@ -77,19 +74,6 @@ nav a:hover {
 
 .gallery img.loaded {
     opacity: 1;
-}
-
-/* RESPONSIVE */
-@media (max-width: 1000px) {
-    .gallery {
-        column-count: 2;
-    }
-}
-
-@media (max-width: 600px) {
-    .gallery {
-        column-count: 1;
-    }
 }
 
 /* LIGHTBOX */
@@ -104,10 +88,11 @@ nav a:hover {
 }
 
 #lightbox img {
-    max-width: 90%;
-    max-height: 90%;
+    max-width: 95%;
+    max-height: 95%;
 }
 
+/* ARROWS */
 .arrow {
     position: absolute;
     top: 50%;
@@ -122,78 +107,6 @@ nav a:hover {
 .arrow.right { right: 20px; }
 
 .arrow:hover { opacity: 0.7; }
-
-/* SENTINEL */
-#sentinel {
-    height: 1px;
-}    width: 100%;
-    margin-bottom: 10px;
-    display: block;
-    border-radius: 8px;
-    opacity: 0;
-    transition: opacity 0.4s ease-out;
-    break-inside: avoid;
-    -webkit-column-break-inside: avoid;
-    page-break-inside: avoid;
-    min-height: 50px; /* prevents collapse during load */
-}
-
-.gallery img.loaded {
-    opacity: 1;
-}
-
-/* RESPONSIVE */
-@media (max-width: 1000px) {
-    .gallery {
-        column-count: 2;
-    }
-}
-
-@media (max-width: 600px) {
-    .gallery {
-        column-count: 1;
-    }
-}
-
-/* LIGHTBOX */
-#lightbox {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.9);
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    z-index: 1000;
-}
-
-#lightbox img {
-    max-width: 90%;
-    max-height: 90%;
-}
-
-.arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 3rem;
-    color: white;
-    cursor: pointer;
-    user-select: none;
-    padding: 10px;
-}
-
-.arrow.left {
-    left: 20px;
-}
-
-.arrow.right {
-    right: 20px;
-}
-
-.arrow:hover {
-    opacity: 0.7;
-}
 
 /* SENTINEL */
 #sentinel {
