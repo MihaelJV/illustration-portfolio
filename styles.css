@@ -48,31 +48,27 @@ nav a {
     color: #f4b400;
 }
 
-/* MASONRY */
+/* MASONRY (v2) */
 .gallery {
-    column-width: 320px;   /* controls column size */
-    column-gap: 12px;
-    padding: 20px;
+    position: relative;
     max-width: 1400px;
     margin: 0 auto;
+    padding: 20px;
 }
 
 /* IMAGES */
 .gallery img {
-    width: 100%;
-    display: block;
-    margin-bottom: 12px;
-    border-radius: 0px;
-
-    break-inside: avoid;
+    position: absolute;
+    width: 320px; /* fixed column width */
+    border-radius: 0;
 
     background: #eee;
 
     opacity: 0;
-    transition: opacity 0.4s ease;
     filter: blur(12px);
     transform: scale(1.02);
-    transition: 
+
+    transition:
         opacity 0.4s ease,
         filter 0.4s ease,
         transform 0.4s ease;
