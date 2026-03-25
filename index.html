@@ -33,7 +33,10 @@
     <span class="arrow right" onclick="event.stopPropagation(); showNext()">❯</span>
 </div>
 
-<div id="sentinel"></div>
+<!-- Loading indicator inside gallery -->
+<div id="sentinel" class="sentinel">
+    <span class="loading-text">Loading ⚫</span>
+</div>
 
 <script>
 // LIGHTBOX
@@ -64,7 +67,7 @@ function showNext() {
     };
 
     testImg.onerror = () => {
-        // stop at last existing image
+        // stop at last image
     };
 }
 
@@ -100,8 +103,8 @@ let isLoading = false;
 let reachedEnd = false;
 
 
-// MASONRY ENGINE
-const columnWidth = 320;
+// MASONRY ENGINE (column width increased by ~50%)
+const columnWidth = 480; // was 320 → 480
 const gap = 12;
 
 let columns = 0;
@@ -117,7 +120,6 @@ function setupMasonry() {
 }
 
 function placeImage(img) {
-    // fix: use img.offsetHeight
     const height = img.offsetHeight;
     if (!height) return;
 
@@ -136,7 +138,7 @@ function placeImage(img) {
 
     columnHeights[minCol] += height + gap;
 
-    gallery.style.height = Math.max(...columnHeights) + 200 + "px";
+    gallery.style.height = Math.max(...columnHeights) + 300 + "px";
 }
 
 
@@ -166,7 +168,6 @@ function loadBatch() {
 
         img.onerror = () => {
             if (index === 1) {
-                // if first image fails, assume no images
                 reachedEnd = true;
             }
             attempted--;
@@ -196,7 +197,6 @@ function loadBatch() {
 
             gallery.appendChild(img);
 
-            // wait for DOM paint → then place
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
                     placeImage(img);
@@ -214,7 +214,7 @@ function loadBatch() {
 }
 
 
-// INIT (IMPORTANT ORDER)
+// INIT
 window.addEventListener("load", () => {
     setupMasonry();
     loadBatch();
@@ -223,16 +223,19 @@ window.addEventListener("load", () => {
 });
 
 
-// SCROLL LOAD
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting && !isLoading && !reachedEnd) {
-            loadBatch();
-        }
-    });
-}, {
-    rootMargin: "300px"
-});
+// SCROLL LOAD (detected higher up, on PC too)
+const observer = new IntersectionObserver(
+    (entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !isLoading && !reachedEnd) {
+                loadBatch();
+            }
+        });
+    },
+    {
+        rootMargin: "800px 0px" // trigger much earlier, especially on wide screens
+    }
+);
 
 
 // RESIZE
