@@ -3,6 +3,7 @@ body {
     margin: 0;
     background: white;
     font-family: "Trebuchet MS", "Comic Sans MS", cursive, sans-serif;
+    min-height: 100vh;
 }
 
 /* HEADER */
@@ -52,8 +53,10 @@ nav a {
 .gallery {
     position: relative;
     max-width: 1400px;
-    margin: 0 auto;
+    margin: 0 auto 40px;
     padding: 20px;
+    min-height: 400px;
+    overflow-y: auto;
 }
 
 /* IMAGES */
@@ -61,13 +64,10 @@ nav a {
     position: absolute;
     width: 320px; /* fixed column width */
     border-radius: 0;
-
     background: #eee;
-
     opacity: 0;
     filter: blur(12px);
     transform: scale(1.02);
-
     transition:
         opacity 0.4s ease,
         filter 0.4s ease,
