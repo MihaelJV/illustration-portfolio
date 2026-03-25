@@ -52,17 +52,18 @@ nav a {
 /* MASONRY (v2) */
 .gallery {
     position: relative;
-    max-width: 1400px;
+    max-width: 1600px;   /* a bit wider for 480px cols */
     margin: 0 auto 40px;
-    padding: 20px;
+    padding: 20px 0;
     min-height: 400px;
     overflow-y: auto;
+    background: #fff;
 }
 
 /* IMAGES */
 .gallery img {
     position: absolute;
-    width: 320px; /* fixed column width */
+    width: 480px; /* matches columnWidth */
     border-radius: 0;
     background: #eee;
     opacity: 0;
@@ -131,9 +132,29 @@ nav a {
 .arrow.left { left: 20px; }
 .arrow.right { right: 20px; }
 
-.arrow:hover { opacity: 0.7; }
+.arrow:hover {
+    opacity: 0.7;
+}
 
-/* SENTINEL */
-#sentinel {
-    height: 100px;
+/* SENTINEL / LOADING INDICATOR */
+.sentinel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+    padding: 20px 0;
+    font-size: 1.2rem;
+    color: #222;
+    font-family: inherit;
+}
+
+.loading-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.loading-text::after {
+    content: "⚫";
+    font-size: 1.3rem;
 }
