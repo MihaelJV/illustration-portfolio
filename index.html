@@ -62,6 +62,10 @@ function showNext() {
         currentLightboxIndex++;
         document.getElementById("lightbox-img").src = nextSrc;
     };
+
+    testImg.onerror = () => {
+        // stop at last existing image
+    };
 }
 
 function showPrev() {
@@ -96,7 +100,7 @@ let isLoading = false;
 let reachedEnd = false;
 
 
-// MASONRY ENGINE (moved OUTSIDE)
+// MASONRY ENGINE
 const columnWidth = 320;
 const gap = 12;
 
@@ -113,8 +117,8 @@ function setupMasonry() {
 }
 
 function placeImage(img) {
-    // ensure height exists
-    const height = offsetHeight;
+    // fix: use img.offsetHeight
+    const height = img.offsetHeight;
     if (!height) return;
 
     let minCol = 0;
@@ -161,6 +165,10 @@ function loadBatch() {
         };
 
         img.onerror = () => {
+            if (index === 1) {
+                // if first image fails, assume no images
+                reachedEnd = true;
+            }
             attempted--;
             checkDone();
         };
@@ -197,6 +205,10 @@ function loadBatch() {
             });
         });
 
+        if (batch.length === 0) {
+            reachedEnd = true;
+        }
+
         isLoading = false;
     }
 }
@@ -214,7 +226,7 @@ window.addEventListener("load", () => {
 // SCROLL LOAD
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting && !isLoading) {
+        if (entry.isIntersecting && !isLoading && !reachedEnd) {
             loadBatch();
         }
     });
