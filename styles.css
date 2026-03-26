@@ -4,6 +4,8 @@ body {
     background: white;
     font-family: "Trebuchet MS", "Comic Sans MS", cursive, sans-serif;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* HEADER */
@@ -49,11 +51,32 @@ nav a {
     color: #f4b400;
 }
 
+/* SOCIALS (under nav, same right‑aligned idea) */
+.socials {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    padding-right: 5%;
+    margin-top: 4px;
+}
+
+.socials .social-link {
+    font-size: 1.2rem;
+    color: #222;
+    text-decoration: none;
+}
+
+.socials .social-link:hover {
+    opacity: 0.7;
+}
+
 /* MASONRY (v2) */
 .gallery {
     position: relative;
     max-width: 1600px;   /* a bit wider for 480px cols */
-    margin: 0 auto 40px;
+    margin: 0 auto 40px; /* stay centered */
     padding: 20px 0;
     min-height: 400px;
     overflow-y: auto;
@@ -97,8 +120,15 @@ nav a {
     nav {
         padding-right: 0;
         justify-content: center;
-        flex-wrap: wrap;
-        gap: 10px;
+        flex-wrap: nowrap;
+        gap: 15px;
+    }
+
+    .socials {
+        justify-content: center;
+        padding-right: 0;
+        margin-top: 8px;
+        gap: 16px;
     }
 }
 
@@ -157,4 +187,17 @@ nav a {
 .loading-text::after {
     content: "⚫";
     font-size: 1.3rem;
+}
+
+/* FOOTER */
+footer.footer {
+    padding: 20px 0;
+}
+
+p.copyright {
+    margin: 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #777;
+    font-family: inherit;
 }
