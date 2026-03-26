@@ -102,6 +102,15 @@ nav a {
     }
 }
 
+/* FOOTER */
+#footer {
+    display: none;
+    text-align: center;
+    padding: 40px 0 30px;
+    font-size: 0.9rem;
+    color: #999;
+}
+
 /* LIGHTBOX */
 #lightbox {
     display: none;
