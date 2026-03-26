@@ -51,27 +51,6 @@ nav a {
     color: #f4b400;
 }
 
-/* SOCIALS (under nav, same right‑aligned idea) */
-.socials {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 12px;
-    padding-right: 5%;
-    margin-top: 4px;
-}
-
-.socials .social-link {
-    font-size: 1.2rem;
-    color: #222;
-    text-decoration: none;
-}
-
-.socials .social-link:hover {
-    opacity: 0.7;
-}
-
 /* MASONRY (v2) */
 .gallery {
     position: relative;
@@ -120,15 +99,8 @@ nav a {
     nav {
         padding-right: 0;
         justify-content: center;
-        flex-wrap: nowrap;
-        gap: 15px;
-    }
-
-    .socials {
-        justify-content: center;
-        padding-right: 0;
-        margin-top: 8px;
-        gap: 16px;
+        flex-wrap: wrap;
+        gap: 10px;
     }
 }
 
