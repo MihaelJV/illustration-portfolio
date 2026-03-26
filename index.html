@@ -37,7 +37,9 @@
 <div id="sentinel" class="sentinel">
     <span class="loading-text">Loading ⚫</span>
 </div>
-
+<footer id="footer">
+    © 2026
+</footer>
 <script>
 // LIGHTBOX
 let currentLightboxIndex = 0;
@@ -130,7 +132,10 @@ function placeImage(img) {
         }
     }
 
-    const x = minCol * (columnWidth + gap);
+    const totalWidth = columns * columnWidth + (columns - 1) * gap;
+    const offset = (gallery.clientWidth - totalWidth) / 2;
+
+    const x = offset + minCol * (columnWidth + gap);
     const y = columnHeights[minCol];
 
     img.style.left = x + "px";
@@ -206,8 +211,17 @@ function loadBatch() {
         });
 
         if (batch.length === 0) {
-            reachedEnd = true;
-        }
+    reachedEnd = true;
+
+    // stop observing
+    observer.disconnect();
+
+    // hide loading text
+    sentinel.style.display = "none";
+
+    // show footer
+    document.getElementById("footer").style.display = "block";
+}
 
         isLoading = false;
     }
