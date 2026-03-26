@@ -19,7 +19,7 @@ header {
     flex: 1;
     display: flex;
     justify-content: flex-start;
-    padding-left: 5%;
+    padding-left: 18%;
 }
 
 .sub-header img {
@@ -35,7 +35,7 @@ nav {
     justify-content: flex-end;
     align-items: center;
     gap: 15px;
-    padding-right: 5%;
+    padding-right: 18%;
 }
 
 nav a {
