@@ -143,7 +143,7 @@ function placeImage(img) {
 
     columnHeights[minCol] += height + gap;
 
-    gallery.style.height = Math.max(...columnHeights) + 300 + "px";
+    gallery.style.height = Math.max(...columnHeights) + 800 + "px";
 }
 
 
@@ -251,6 +251,20 @@ const observer = new IntersectionObserver(
     }
 );
 
+    window.addEventListener("scroll", () => {
+    if (isLoading || reachedEnd) return;
+
+    const scrollBottom =
+        window.innerHeight + window.scrollY;
+
+    const pageHeight =
+        document.documentElement.offsetHeight;
+
+    // trigger earlier on large screens
+    if (scrollBottom > pageHeight - 1500) {
+        loadBatch();
+    }
+});
 
 // RESIZE
 window.addEventListener("resize", () => {
