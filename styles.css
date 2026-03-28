@@ -32,10 +32,11 @@ header {
 nav {
     flex: 1;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;   /* stack rows */
+    justify-content: center;  
     align-items: center;
-    gap: 15px;
-    padding-right: 18%;
+    gap: 8px;
+    padding-right: 5%;
 }
 
 nav a {
@@ -47,6 +48,26 @@ nav a {
 
 .nav-sep {
     color: #f4b400;
+}
+
+.nav-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-socials {
+    display: flex;
+    gap: 12px;
+    font-size: 1.2rem;
+}
+
+.nav-socials a {
+    text-decoration: none;
+}
+
+.nav-socials a:hover {
+    opacity: 0.6;
 }
 
 /* MASONRY (v2) */
