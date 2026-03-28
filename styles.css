@@ -86,14 +86,14 @@ nav a.active {
     justify-content: center;
     width: 26px;
     height: 26px;
-    color: #575757;
+    color: #575757 !important;
 }
 
 .social-icon img {
     width: 18px;
     height: 18px;
     display: block;
-    filter: grayscale(100%) brightness(0);
+    filter: grayscale(100%) brightness(0) !important;
 }
 
 .social-icon:hover img {
