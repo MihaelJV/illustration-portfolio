@@ -137,6 +137,7 @@ nav a.active {
         flex-direction: column;
         align-items: center;
         gap: 10px;
+        position: static;
     }
 
     .sub-header {
