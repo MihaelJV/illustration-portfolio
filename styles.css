@@ -1,5 +1,5 @@
-/* BASE */
-body {
+
+/* BASE */body {
     margin: 0;
     background: white;
     font-family: "Trebuchet MS", "Comic Sans MS", cursive, sans-serif;
@@ -12,7 +12,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 20px 0;
-    position: sticky;
+    position: sticky !important;
     top: 0;
     z-index: 1000;
     background: white;
@@ -138,6 +138,7 @@ nav a.active {
         align-items: center;
         gap: 10px;
         position: static;
+        width: 100%;
     }
 
     .sub-header {
@@ -148,8 +149,18 @@ nav a.active {
     nav {
         padding-right: 0;
         justify-content: center;
+        align-items: center;
         flex-wrap: wrap;
         gap: 10px;
+    }
+    .gallery {
+        padding: 10px;
+    }
+    .gallery img {
+        width: 100% !important;   
+        left: 0 !important;       
+        top: auto !important;
+        position: relative !important;
     }
 }
 
