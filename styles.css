@@ -331,6 +331,7 @@ button:hover {
     .about-flex {
         flex-direction: column;
         text-align: center;
+        align-items: center;
     }
 
     .portrait {
