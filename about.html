@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About</title>
+    <title>About — Jordanka V.</title>
+    <meta name="description" content="Jordanka V. — illustrator and author of children's books, character design, concept art, stickers, and greeting cards. Get in touch." />
+    
+    <!-- Keep your existing CSS -->
     <link rel="stylesheet" href="styles.css">
+   
 </head>
 <body>
 
@@ -40,10 +44,46 @@
     </nav>
 </header>
 
-<main class="content">
-    <h1>About</h1>
-    <p>Short bio, contact info, socials.</p>
+<main class="about-container">
+
+    <div class="about-flex">
+        <img src="images/portrait.jpg" alt="Portrait of Jordanka V." class="portrait" />
+
+        <div class="about-text">
+            <h1>Jordanka V.</h1>
+            <p class="tagline">Illustrator &amp; children's book author</p>
+
+            <p class="bio">
+                I write and illustrate children's books, and create character design, concept art,
+                stickers, and greeting cards. If you'd like to collaborate, commission a piece, or
+                just say hello — feel free to contact me on my socials, or the form below.
+            </p>
+        </div>
+    </div>
+
+    <h2>Get in touch</h2>
+
+    <form action="https://formsubmit.co/jordanka88888@gmail.com" method="POST">
+        <!-- FormSubmit configuration -->
+        <input type="hidden" name="_subject" value="New message from your website" />
+        <input type="hidden" name="_captcha" value="true" />
+        <input type="hidden" name="_template" value="table" />
+
+        <input type="email" name="email" placeholder="Your email" required />
+        <input type="text" name="name" placeholder="Your name" required />
+        <textarea name="message" placeholder="Your message" required></textarea>
+        <button type="submit">Send message</button>
+    </form>
+
+    <footer id="footer">
+    © 2026
+    </footer>
+
 </main>
+
+<script>
+document.getElementById('y').textContent = new Date().getFullYear();
+</script>
 
 </body>
 </html>
