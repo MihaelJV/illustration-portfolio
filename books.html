@@ -15,128 +15,53 @@
         </a>
     </div>
 
-   <nav>
-    <div class="nav-top">
-        <a href="index.html">Illustrations</a>
-        <span class="nav-sep">★</span>
-        <a href="books.html" class="active">Books</a>
-        <span class="nav-sep">★</span>
-        <a href="about.html">About</a>
-    </div>
+    <nav>
+        <div class="nav-top">
+            <a href="index.html">Illustrations</a>
+            <span class="nav-sep">★</span>
+            <a href="books.html" class="active">Books</a>
+            <span class="nav-sep">★</span>
+            <a href="about.html">About</a>
+        </div>
 
-    <div class="nav-socials">
-    <a href="https://www.instagram.com/jordanka.sky/" target="_blank" class="social-icon">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram">
-    </a>
-
-    <a href="https://www.youtube.com/@jordankasky" target="_blank" class="social-icon">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtube.svg" alt="YouTube">
-    </a>
-
-    <a href="https://www.linkedin.com/in/jordanka-vlaisavljevic-9a9b8038b/" target="_blank" class="social-icon">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg" alt="LinkedIn">
-    </a>
-    </div>
+        <div class="nav-socials">
+            <a href="https://www.instagram.com/jordanka.sky/" target="_blank" class="social-icon">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram">
+            </a>
+            <a href="https://www.youtube.com/@jordankasky" target="_blank" class="social-icon">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtube.svg" alt="YouTube">
+            </a>
+            <a href="https://www.linkedin.com/in/jordanka-vlaisavljevic-9a9b8038b/" target="_blank" class="social-icon">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg" alt="LinkedIn">
+            </a>
+        </div>
     </nav>
 </header>
 
-<main class="books-container">
-    <h1>Books</h1>
- 
-    <div class="book-card">
-        <!-- Thumbnail -->
-        <div class="book-thumbnail-wrap" onclick="openBookLightbox(0)">
-            <img src="images/38.webp" alt="Book cover">
-            <span class="view-label">View inside ↗</span>
-        </div>
- 
-        <!-- Info -->
-        <div class="book-info">
-            <h2>Why We Kicked Out Spoiled Alice From Wonderland</h2>
-            <p class="book-meta">Published 2025 &nbsp;·&nbsp; 15 pages &nbsp;·&nbsp; Written and illustrated by jordankasky</p>
-            <p>
-                A picture book about a troublesome girl who stumbles into Wonderland and turns every curious encounter into chaos and confusion.
-                Through lively, hand-drawn illustrations and playful prose, <em>Why We Kicked Out Spoiled Alice</em> invites young readers
-                to laugh, cringe, and wonder whether Alice will ever learn her manners before the people of Wonderland finally lose their patience.
+<main class="books-grid-container">
+    <!--
+        TO ADD A NEW BOOK:
+        Copy one .book-cover block below and update:
+          - href="your-book-page.html"
+          - src="images/your-cover.webp"
+          - alt="Book title"
+          - the <span> title text
+    -->
 
-            </p>
-            <p>
-                Each spread pairs a dreamlike illustration with a short verse, making it equally beautiful on a bookshelf 
-                and a joy to read aloud. Suitable for ages 3–8.
-            </p>
-            <button class="read-more-btn" onclick="openBookLightbox(0)">Browse the pages</button>
-        </div>
+    <div class="book-cover">
+        <a href="alice.html">
+            <img src="images/38.webp" alt="Why We Kicked Out Spoiled Alice From Wonderland">
+            <span class="book-cover-title">Why We Kicked Out Spoiled Alice From Wonderland</span>
+        </a>
     </div>
+
+    <!-- ADD MORE BOOKS HERE -->
+
 </main>
- 
-<!-- Book Slideshow Lightbox -->
-<div id="book-lightbox" onclick="closeBookLightbox()">
-    <span class="arrow left" onclick="event.stopPropagation(); bookPrev()">❮</span>
-    <img id="book-lightbox-img" alt="Book page" onclick="event.stopPropagation()">
-    <span class="arrow right" onclick="event.stopPropagation(); bookNext()">❯</span>
-    <span class="slide-counter" id="slide-counter"></span>
-</div>
- 
+
 <footer id="footer">
     © 2026
 </footer>
- 
-<script>
-    const bookSlides = [
-        "images/38.webp",
-        "images/1.webp",
-        "images/5.webp",
-        "images/6.webp",
-        "images/7.webp",
-        "images/8.webp",
-        "images/9.webp",
-        "images/10.webp",
-        "images/11.webp",
-        "images/13.webp",
-        "images/15.webp",
-        "images/17.webp",
-        "images/51.webp",
-        "images/18.webp"
-    ];
- 
-    let currentSlide = 0;
- 
-    function openBookLightbox(index) {
-        currentSlide = index;
-        updateBookSlide();
-        document.getElementById("book-lightbox").classList.add("open");
-        document.body.style.overflow = "hidden";
-    }
- 
-    function closeBookLightbox() {
-        document.getElementById("book-lightbox").classList.remove("open");
-        document.body.style.overflow = "";
-    }
- 
-    function updateBookSlide() {
-        document.getElementById("book-lightbox-img").src = bookSlides[currentSlide];
-        document.getElementById("slide-counter").textContent =
-            (currentSlide + 1) + " / " + bookSlides.length;
-    }
- 
-    function bookNext() {
-        currentSlide = (currentSlide + 1) % bookSlides.length;
-        updateBookSlide();
-    }
- 
-    function bookPrev() {
-        currentSlide = (currentSlide - 1 + bookSlides.length) % bookSlides.length;
-        updateBookSlide();
-    }
- 
-    document.addEventListener("keydown", (e) => {
-        const lb = document.getElementById("book-lightbox");
-        if (lb.classList.contains("open")) {
-            if (e.key === "ArrowRight") bookNext();
-            if (e.key === "ArrowLeft") bookPrev();
-            if (e.key === "Escape") closeBookLightbox();
-        }
-    });
-</script>
+
 </body>
 </html>
