@@ -12,7 +12,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 20px 0;
-    position: sticky !important;
+    position: static !important;
     top: 0;
     z-index: 1000;
     background: white;
