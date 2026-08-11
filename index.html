@@ -44,6 +44,7 @@
 
 <!-- Lightbox -->
 <div id="lightbox" onclick="closeLightbox()">
+    <span class="close-lightbox" onclick="event.stopPropagation(); closeLightbox()">×</span>
     <span class="arrow left" onclick="event.stopPropagation(); showPrev()">❮</span>
     <img id="lightbox-img" alt="Expanded artwork">
     <span class="arrow right" onclick="event.stopPropagation(); showNext()">❯</span>
@@ -122,7 +123,7 @@ let reachedEnd = false;
 
 
 // MASONRY ENGINE (column width increased by ~50%)
-const columnWidth = 480; // was 320 → 480
+const columnWidth = 600; // was 320 → 480
 const gap = 12;
 
 let columns = 0;
@@ -131,7 +132,7 @@ let columnHeights = [];
 function setupMasonry() {
     const galleryWidth = gallery.clientWidth;
 
-    columns = Math.floor(galleryWidth / (columnWidth + gap));
+    columns = Math.min(2, Math.floor(galleryWidth / (columnWidth + gap)));
     if (columns < 1) columns = 1;
 
     columnHeights = new Array(columns).fill(0);
