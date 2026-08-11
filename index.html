@@ -123,8 +123,8 @@ let reachedEnd = false;
 
 
 // MASONRY ENGINE (column width increased by ~50%)
-const columnWidth = 600; // was 320 → 480
 const gap = 12;
+let columnWidth = 600;
 
 let columns = 0;
 let columnHeights = [];
@@ -132,8 +132,10 @@ let columnHeights = [];
 function setupMasonry() {
     const galleryWidth = gallery.clientWidth;
 
-    columns = Math.min(2, Math.floor(galleryWidth / (columnWidth + gap)));
-    if (columns < 1) columns = 1;
+    columns = galleryWidth <= 700 ? 1 : 2;
+    columnWidth = columns === 1
+        ? galleryWidth
+        : Math.min(600, (galleryWidth - gap) / 2);
 
     columnHeights = new Array(columns).fill(0);
 }
